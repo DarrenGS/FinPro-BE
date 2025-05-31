@@ -12,29 +12,30 @@
             <p class="text-gray-700 mb-4">{{ $product->description }}</p>
             <p class="text-sm text-gray-500 mb-6">Stock: {{ $product->stock }}</p>
 
-            {{-- sementara --}}
-            <a href="#" class="inline-block mr-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
-                Add to Cart
-            </a>
-
-            <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                Buy Now
-            </a>
-
-            {{-- <form method="POST" action="{{ route('cart.add', $product->id) }}" class="inline-block mr-2">
+            <form method="POST" action="{{ route('cart.add', $product) }}" class="inline-block mr-2">
                 @csrf
                 <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
                     Add to Cart
                 </button>
             </form>
 
-            <form method="POST" action="{{ route('checkout.buy', $product->id) }}" class="inline-block">
+            <form method="POST" action="{{ route('buy.now', $product) }}" class="inline-block">
                 @csrf
+                <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
                     Buy Now
                 </button>
-            </form> --}}
+            </form>
+
         </div>
     </div>
+
+    {{-- Notifikasi jika ada error/success --}}
+    @if(session('error'))
+        <div class="alert alert-danger mt-4">{{ session('error') }}</div>
+    @endif
+    @if(session('success'))
+        <div class="alert alert-success mt-4">{{ session('success') }}</div>
+    @endif
 </div>
 @endsection

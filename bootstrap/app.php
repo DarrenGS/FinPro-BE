@@ -10,13 +10,20 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(callback: function (Middleware $middleware) : void {
         $middleware->web();
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+        '/webhook/stripe',
+        '/api/external',
+        'api/*',              // Mengecualikan semua URL yang diawali dengan 'api/'
+        'no-csrf',            // Hanya endpoint '/no-csrf'
+        'form/submit',        // Hanya endpoint '/form/submit'
+        ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(using: function (Exceptions $exceptions):void {
         //
     })->create();
 
