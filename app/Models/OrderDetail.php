@@ -21,4 +21,18 @@ class OrderDetail extends Model
     }
 
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price'];
+
+    // 🔗 Relasi ke Order
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    // 🔗 Relasi ke Product
+
+
+        public function product()
+    {
+        return $this->belongsTo(\App\Models\Product::class);
+    }
 }

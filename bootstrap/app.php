@@ -16,11 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
         $middleware->validateCsrfTokens(except: [
-        '/webhook/stripe',
-        '/api/external',
-        'api/*',              // Mengecualikan semua URL yang diawali dengan 'api/'
-        'no-csrf',            // Hanya endpoint '/no-csrf'
-        'form/submit',        // Hanya endpoint '/form/submit'
+        '/*',
         ]);
     })
     ->withExceptions(using: function (Exceptions $exceptions):void {

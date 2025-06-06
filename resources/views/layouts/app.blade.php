@@ -7,25 +7,41 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased">
     <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-4 px-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-pink-600">Sweet Shop 🍭</h1>
+    <div class="max-w-7xl mx-auto py-4 px-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-pink-600">Sweet Shop 🍭</h1>
+        <div class="flex items-center space-x-6">
+            {{-- Saldo User --}}
+            @auth
+                <div class="text-pink-600 font-medium hover:underline">
+                    Balance: Rp {{ number_format(auth()->user()->money, 0, ',', '.') }}
+                </div>
+            @endauth
+
+            {{-- Cart Menu --}}
+            @auth
+                @php
+                    $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                @endphp
+                <a href="{{ route('cart.index') }}" class="text-pink-600 font-medium hover:underline">
+                    🛒 Cart ({{ $cartCount }})
+                </a>
+            @endauth
+
+            {{-- Navigation --}}
             <nav>
                 @auth
                     <a href="{{ route('logout') }}" class="text-red-600 mr-4">Logout</a>
-                    {{-- <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="text-red-500 hover:underline" type="submit">Logout</button>
-                    </form> --}}
                 @else
                     <a href="{{ route('login') }}" class="text-blue-600 mr-4">Login</a>
                     <a href="{{ route('register') }}" class="text-green-600">Register</a>
                 @endauth
             </nav>
         </div>
-    </header>
+    </div>
+</header>
 
     <main class="py-6 px-4">
-       @if (session('status'))
+        @if (session('status'))
             <div class="mb-4 p-3 bg-green-100 text-green-800 border border-green-300 rounded">
                 {{ session('status') }}
             </div>
